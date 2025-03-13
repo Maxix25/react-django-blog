@@ -13,6 +13,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ColorModeIconDropdown from '../../../shared-theme/ColorModeIconDropdown';
 import Sitemark from './SitemarkIcon';
+import { Link } from 'react-router-dom';
+import { Typography } from '@mui/material';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     display: 'flex',
@@ -95,13 +97,25 @@ export default function AppAppBar() {
                             alignItems: 'center',
                         }}
                     >
-                        <Button color='primary' variant='text' size='small'>
-                            Sign in
-                        </Button>
+                        <Typography sx={{ textAlign: 'center' }}>
+                            <Button
+                                color='primary'
+                                variant='text'
+                                size='small'
+                                component={Link}
+                                to='/login'
+                                style={{ textDecoration: 'none' }}
+                            >
+                                Sign in
+                            </Button>
+                        </Typography>
                         <Button
                             color='primary'
                             variant='contained'
                             size='small'
+                            component={Link}
+                            to='/register'
+                            style={{ textDecoration: 'none' }}
                         >
                             Sign up
                         </Button>
