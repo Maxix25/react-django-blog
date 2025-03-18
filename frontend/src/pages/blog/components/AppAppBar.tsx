@@ -177,6 +177,8 @@ export default function AppAppBar() {
                                     <Button
                                         color='primary'
                                         variant='outlined'
+                                        component={Link}
+                                        to='/login'
                                         fullWidth
                                     >
                                         Sign in

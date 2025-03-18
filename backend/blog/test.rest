@@ -1,0 +1,9 @@
+POST http://127.0.0.1:8000/api/token/
+Content-Type: application/json
+
+{
+    "username": "MaxiAdmin",
+    "password": ".."
+}
+###
+GET http://127.0.0.1:8000/blog/posts/1

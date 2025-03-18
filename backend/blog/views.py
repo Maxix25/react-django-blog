@@ -24,3 +24,10 @@ def create_post(request):
         serializer.save()
         return Response(status=status.HTTP_201_CREATED, data=serializer.data)
     return Response(status=status.HTTP_400_BAD_REQUEST, data=serializer.errors)
+
+
+@api_view(['GET'])
+def view_post(request, pk):
+    post = Post.objects.get(id=pk)
+    serializer = PostSerializer(post)
+    return Response(status=status.HTTP_200_OK, data=serializer.data)

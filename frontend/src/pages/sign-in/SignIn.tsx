@@ -125,7 +125,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
                         }}
                     >
                         <FormControl>
-                            <FormLabel htmlFor='email'>Username</FormLabel>
+                            <FormLabel htmlFor='username'>Username</FormLabel>
                             <TextField
                                 id='username'
                                 type='text'
