@@ -30,4 +30,6 @@ def create_post(request):
 def view_post(request, pk):
     post = Post.objects.get(id=pk)
     serializer = PostSerializer(post)
-    return Response(status=status.HTTP_200_OK, data=serializer.data)
+    response = Response(status=status.HTTP_200_OK, data=serializer.data)
+    response["Access-Control-Allow-Origin"] = "*"
+    return response

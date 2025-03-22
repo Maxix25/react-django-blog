@@ -16,17 +16,8 @@ import AppAppBar from '../blog/components/AppAppBar';
 import { format } from 'date-fns';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import PersonIcon from '@mui/icons-material/Person';
-
-// Tipo para los datos del post
-interface Post {
-    id: string;
-    title: string;
-    content: string;
-    author: string;
-    publishedDate: string;
-}
-
-// Opciones para renderizar markdown de forma segura
+import { Post } from '../../interfaces/posts.interface';
+import getPost from '../../api/posts/getPost';
 
 const ViewPost = () => {
     const { postId } = useParams<{ postId: string }>();
@@ -35,57 +26,16 @@ const ViewPost = () => {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        // Función para cargar los datos del post
         const fetchPost = async () => {
             setLoading(true);
             try {
-                // Aquí deberías hacer una llamada a tu API
-                // Por ahora, simulamos una respuesta con datos de ejemplo
-                // fetch(`/api/posts/${postId}`)
-                // const response = await fetch(`/api/posts/${postId}`);
-                // const data = await response.json();
-
-                // Datos de ejemplo (reemplazar con llamada real a API)
-                const mockPost: Post = {
-                    id: postId || '1',
-                    title: 'Introducción a React y Django',
-                    content: `## Cómo integrar React con Django
-
-Un blog moderno necesita un frontend potente y un backend sólido.
-
-\`\`\`javascript
-// Ejemplo de componente React
-function BlogPost({ title, content }) {
-  return (
-    <article>
-      <h1>{title}</h1>
-      <div className="content">{content}</div>
-    </article>
-  );
-}
-\`\`\`
-
-### Ventajas de esta arquitectura
-
-- **Frontend**: React ofrece una experiencia de usuario fluida
-- **Backend**: Django proporciona un ORM potente y admin incluido
-- **API**: Django Rest Framework simplifica la creación de APIs
-
-\`\`\`python
-# Vista de Django Rest Framework
-class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-\`\`\``,
-                    author: 'María González',
-                    publishedDate: '2025-02-15T14:30:00Z',
-                };
-
-                setTimeout(() => {
-                    setPost(mockPost);
+                const urlparams = new URLSearchParams(window.location.search);
+                const postId = parseInt(urlparams.get('id') || '');
+                getPost(postId).then((response) => {
+                    console.log(response);
+                    setPost(response);
                     setLoading(false);
-                }, 500); // Simular carga
+                });
             } catch (err) {
                 setError(
                     'Error al cargar el post. Por favor, inténtalo de nuevo más tarde.'
@@ -98,7 +48,6 @@ class PostViewSet(viewsets.ModelViewSet):
         fetchPost();
     }, [postId]);
 
-    // Formatear la fecha para mostrarla de forma amigable
     const formatDate = (dateString: string) => {
         try {
             return format(new Date(dateString), 'dd MMMM, yyyy');
@@ -139,14 +88,14 @@ class PostViewSet(viewsets.ModelViewSet):
                         >
                             <Chip
                                 icon={<PersonIcon />}
-                                label={`Autor: ${post.author}`}
+                                label={`Autor: ${post.author.username}`}
                                 variant='outlined'
                                 color='primary'
                             />
                             <Chip
                                 icon={<CalendarTodayIcon />}
                                 label={`Publicado: ${formatDate(
-                                    post.publishedDate
+                                    post.date_posted
                                 )}`}
                                 variant='outlined'
                             />

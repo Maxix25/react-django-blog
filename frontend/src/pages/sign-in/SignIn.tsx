@@ -13,7 +13,9 @@ import { styled } from '@mui/material/styles';
 import AppTheme from '../../shared-theme/AppTheme';
 import ColorModeSelect from '../../shared-theme/ColorModeSelect';
 import { SitemarkIcon } from './components/CustomIcons';
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import login from '../../api/auth/login';
+import Cookies from 'js-cookie';
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
@@ -58,40 +60,22 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function SignIn(props: { disableCustomTheme?: boolean }) {
-    const [passwordError, setPasswordError] = useState(false);
-    const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        if (passwordError) {
-            event.preventDefault();
-            return;
-        }
+        event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
-    };
-
-    const validateInputs = () => {
-        const password = document.getElementById(
-            'password'
-        ) as HTMLInputElement;
-
-        let isValid = true;
-
-        if (!password.value || password.value.length < 6) {
-            setPasswordError(true);
-            setPasswordErrorMessage(
-                'Password must be at least 6 characters long.'
-            );
-            isValid = false;
-        } else {
-            setPasswordError(false);
-            setPasswordErrorMessage('');
-        }
-
-        return isValid;
+        const username = data.get('username') as string;
+        const password = data.get('password') as string;
+        login(username, password)
+            .then((data) => {
+                localStorage.setItem('access', data.access);
+                localStorage.setItem('refresh', data.refresh);
+                navigate('/posts/create');
+            })
+            .catch((error) => {
+                console.error('Error signing in:', error);
+            });
     };
 
     return (
@@ -142,8 +126,6 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
                         <FormControl>
                             <FormLabel htmlFor='password'>Password</FormLabel>
                             <TextField
-                                error={passwordError}
-                                helperText={passwordErrorMessage}
                                 name='password'
                                 placeholder='••••••'
                                 type='password'
@@ -153,7 +135,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
                                 required
                                 fullWidth
                                 variant='outlined'
-                                color={passwordError ? 'error' : 'primary'}
+                                color='primary'
                             />
                         </FormControl>
                         <FormControlLabel
@@ -162,12 +144,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
                             }
                             label='Remember me'
                         />
-                        <Button
-                            type='submit'
-                            fullWidth
-                            variant='contained'
-                            onClick={validateInputs}
-                        >
+                        <Button type='submit' fullWidth variant='contained'>
                             Sign in
                         </Button>
                     </Box>
