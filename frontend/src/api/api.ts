@@ -7,6 +7,16 @@ const api = axios.create({
     },
 });
 
+axios.interceptors.request.use(
+    (config) => {
+        config.withCredentials = true;
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
 api.interceptors.request.use(
     (config) => {
         const token = Cookies.get('access');

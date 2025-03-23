@@ -67,10 +67,14 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
         const data = new FormData(event.currentTarget);
         const username = data.get('username') as string;
         const password = data.get('password') as string;
+        const fifteenminutes = 1 / 96;
+
         login(username, password)
             .then((data) => {
-                localStorage.setItem('access', data.access);
-                localStorage.setItem('refresh', data.refresh);
+                console.log('Signed in:', data);
+                Cookies.set('access', data.access, { expires: fifteenminutes });
+                Cookies.set('refresh', data.refresh, { expires: 1 });
+                console.log('Done!');
                 navigate('/posts/create');
             })
             .catch((error) => {

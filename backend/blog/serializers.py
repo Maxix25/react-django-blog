@@ -9,9 +9,20 @@ class AuthorSerializer(serializers.ModelSerializer):
         fields = ['username']
 
 
+class AuthorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username']
+
+
 class PostSerializer(serializers.ModelSerializer):
-    author = AuthorSerializer()
+    author = AuthorSerializer(read_only=True)
 
     class Meta:
         model = Post
         fields = '__all__'
+
+    def create(self, validated_data):
+        user = self.context.get('request').user
+        post = Post.objects.create(author=user, **validated_data)
+        return post

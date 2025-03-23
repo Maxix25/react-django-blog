@@ -19,7 +19,8 @@ def get_posts(request):
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def create_post(request):
-    serializer = PostSerializer(data=request.data)
+    serializer = PostSerializer(
+        data=request.data, context={'request': request})
     if serializer.is_valid():
         serializer.save()
         return Response(status=status.HTTP_201_CREATED, data=serializer.data)
@@ -31,5 +32,13 @@ def view_post(request, pk):
     post = Post.objects.get(id=pk)
     serializer = PostSerializer(post)
     response = Response(status=status.HTTP_200_OK, data=serializer.data)
-    response["Access-Control-Allow-Origin"] = "*"
     return response
+
+
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def get_user_posts(request):
+    posts = Post.objects.filter(author=request.user)
+    serializer = PostSerializer(posts, many=True)
+    return Response(status=status.HTTP_200_OK, data=serializer.data)

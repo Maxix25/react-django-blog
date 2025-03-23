@@ -67,6 +67,7 @@ This is a markdown preview
                 <form onSubmit={handleSubmit}>
                     <TextField
                         label='Post Title'
+                        name='title'
                         variant='outlined'
                         fullWidth
                         value={title}
@@ -103,6 +104,7 @@ This is a markdown preview
                                     multiline
                                     fullWidth
                                     variant='outlined'
+                                    name='content'
                                     value={markdownContent}
                                     onChange={handleMarkdownChange}
                                     placeholder='Write your content in markdown format...'

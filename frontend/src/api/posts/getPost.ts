@@ -6,7 +6,6 @@ const getPost = async (id: number | null) => {
     }
     try {
         const response = await api.get(`/blog/posts/${id}`);
-        console.log(response);
         return response.data;
     } catch (error) {
         console.error('Error fetching post:', error);

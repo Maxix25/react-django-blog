@@ -5,6 +5,7 @@ import SignIn from './pages/sign-in/SignIn';
 import CreatePost from './pages/create-post/CreatePost';
 import ViewPost from './pages/view-post/ViewPost';
 import ProtectedRoute from './components/ProtectedRoute';
+import NotFound from './pages/NotFound';
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
                 }
             />
             <Route path='/posts' element={<ViewPost />} />
+            <Route path='*' element={<NotFound />} />
         </Routes>
     );
 }

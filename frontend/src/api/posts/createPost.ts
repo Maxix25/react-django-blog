@@ -16,6 +16,7 @@ const createPost = async (
     }
     const form = event.currentTarget as HTMLFormElement;
     const formData = new FormData(form);
+    console.log(formData.get('title'));
     const post = {
         title: formData.get('title') as string,
         content: formData.get('content') as string,
@@ -23,8 +24,7 @@ const createPost = async (
     };
     try {
         const response = await api.post('/blog/posts/create/', post);
-        console.log(response.data);
-        navigate('/');
+        navigate(`/posts?id=${response.data.id}`);
     } catch (error) {
         console.error('Error creating post:', error);
         return null;
