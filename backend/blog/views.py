@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework import status
 from .models import Post
-from .serializers import PostSerializer
+from .serializers import PostSerializer, UserSerializer
 
 
 @api_view(['GET'])
@@ -41,4 +41,13 @@ def view_post(request, pk):
 def get_user_posts(request):
     posts = Post.objects.filter(author=request.user)
     serializer = PostSerializer(posts, many=True)
+    return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def get_user_info(request):
+    user = request.user
+    serializer = UserSerializer(user)
     return Response(status=status.HTTP_200_OK, data=serializer.data)

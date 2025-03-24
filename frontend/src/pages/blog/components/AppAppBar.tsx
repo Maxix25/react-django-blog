@@ -6,15 +6,14 @@ import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Container from '@mui/material/Container';
-import Divider from '@mui/material/Divider';
-import MenuItem from '@mui/material/MenuItem';
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import CloseIcon from '@mui/icons-material/Close';
+import { Link } from 'react-router-dom';
 import ColorModeIconDropdown from '../../../shared-theme/ColorModeIconDropdown';
 import Sitemark from './SitemarkIcon';
-import { Link } from 'react-router-dom';
-import { Typography } from '@mui/material';
+import AuthenticatedNavbar from './AuthenticatedNavbar';
+import useAuth from '../../../hooks/useAuth';
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     display: 'flex',
@@ -32,10 +31,15 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 
 export default function AppAppBar() {
     const [open, setOpen] = React.useState(false);
+    const { isAuthenticated, user } = useAuth();
 
     const toggleDrawer = (newOpen: boolean) => () => {
         setOpen(newOpen);
     };
+
+    if (isAuthenticated && user) {
+        return <AuthenticatedNavbar username={user.username} />;
+    }
 
     return (
         <AppBar
@@ -60,33 +64,14 @@ export default function AppAppBar() {
                     >
                         <Sitemark />
                         <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                            <Button variant='text' color='info' size='small'>
-                                Features
-                            </Button>
-                            <Button variant='text' color='info' size='small'>
-                                Testimonials
-                            </Button>
-                            <Button variant='text' color='info' size='small'>
-                                Highlights
-                            </Button>
-                            <Button variant='text' color='info' size='small'>
-                                Pricing
-                            </Button>
                             <Button
                                 variant='text'
                                 color='info'
                                 size='small'
-                                sx={{ minWidth: 0 }}
+                                component={Link}
+                                to='/'
                             >
-                                FAQ
-                            </Button>
-                            <Button
-                                variant='text'
-                                color='info'
-                                size='small'
-                                sx={{ minWidth: 0 }}
-                            >
-                                Blog
+                                Home
                             </Button>
                         </Box>
                     </Box>
@@ -97,28 +82,25 @@ export default function AppAppBar() {
                             alignItems: 'center',
                         }}
                     >
-                        <Typography sx={{ textAlign: 'center' }}>
-                            <Button
-                                color='primary'
-                                variant='text'
-                                size='small'
-                                component={Link}
-                                to='/login'
-                                style={{ textDecoration: 'none' }}
-                            >
-                                Sign in
-                            </Button>
-                        </Typography>
+                        <Button
+                            color='primary'
+                            variant='text'
+                            size='small'
+                            component={Link}
+                            to='/login'
+                        >
+                            Sign in
+                        </Button>
                         <Button
                             color='primary'
                             variant='contained'
                             size='small'
                             component={Link}
-                            to='/register'
-                            style={{ textDecoration: 'none' }}
+                            to='/signup'
                         >
                             Sign up
                         </Button>
+
                         <ColorModeIconDropdown />
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' }, gap: 1 }}>
@@ -150,40 +132,48 @@ export default function AppAppBar() {
                                 <Box
                                     sx={{
                                         display: 'flex',
-                                        justifyContent: 'flex-end',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center',
+                                        mb: 2,
                                     }}
                                 >
+                                    <Sitemark />
                                     <IconButton onClick={toggleDrawer(false)}>
-                                        <CloseRoundedIcon />
+                                        <CloseIcon />
                                     </IconButton>
                                 </Box>
-                                <MenuItem>Features</MenuItem>
-                                <MenuItem>Testimonials</MenuItem>
-                                <MenuItem>Highlights</MenuItem>
-                                <MenuItem>Pricing</MenuItem>
-                                <MenuItem>FAQ</MenuItem>
-                                <MenuItem>Blog</MenuItem>
-                                <Divider sx={{ my: 3 }} />
-                                <MenuItem>
-                                    <Button
-                                        color='primary'
-                                        variant='contained'
-                                        fullWidth
-                                    >
-                                        Sign up
-                                    </Button>
-                                </MenuItem>
-                                <MenuItem>
-                                    <Button
-                                        color='primary'
-                                        variant='outlined'
-                                        component={Link}
-                                        to='/login'
-                                        fullWidth
-                                    >
-                                        Sign in
-                                    </Button>
-                                </MenuItem>
+                                <Button
+                                    component={Link}
+                                    to='/'
+                                    fullWidth
+                                    sx={{ mb: 1 }}
+                                >
+                                    Home
+                                </Button>
+                                <Button
+                                    component={Link}
+                                    to='/blog'
+                                    fullWidth
+                                    sx={{ mb: 1 }}
+                                >
+                                    Blog
+                                </Button>
+                                <Button
+                                    component={Link}
+                                    to='/login'
+                                    fullWidth
+                                    sx={{ mb: 1 }}
+                                >
+                                    Sign in
+                                </Button>
+                                <Button
+                                    component={Link}
+                                    to='/signup'
+                                    fullWidth
+                                    variant='contained'
+                                >
+                                    Sign up
+                                </Button>
                             </Box>
                         </Drawer>
                     </Box>

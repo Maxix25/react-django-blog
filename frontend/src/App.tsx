@@ -6,6 +6,7 @@ import CreatePost from './pages/create-post/CreatePost';
 import ViewPost from './pages/view-post/ViewPost';
 import ProtectedRoute from './components/ProtectedRoute';
 import NotFound from './pages/NotFound';
+import YourPosts from './pages/your-posts/YourPosts';
 
 function App() {
     return (
@@ -21,6 +22,14 @@ function App() {
                 }
             />
             <Route path='/posts' element={<ViewPost />} />
+            <Route
+                path='/posts/your-posts'
+                element={
+                    <ProtectedRoute>
+                        <YourPosts />
+                    </ProtectedRoute>
+                }
+            />
             <Route path='*' element={<NotFound />} />
         </Routes>
     );

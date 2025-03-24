@@ -6,9 +6,9 @@ import {
     Paper,
     Chip,
     Divider,
+    Skeleton,
 } from '@mui/material';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import Markdown from 'react-markdown';
 import safeMarkdownOptions from '../../constants/safeMarkdownOptions';
 import AppTheme from '../../shared-theme/AppTheme';
@@ -20,7 +20,6 @@ import { Post } from '../../interfaces/posts.interface';
 import getPost from '../../api/posts/getPost';
 
 const ViewPost = () => {
-    const { postId } = useParams<{ postId: string }>();
     const [post, setPost] = useState<Post | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -46,7 +45,7 @@ const ViewPost = () => {
         };
 
         fetchPost();
-    }, [postId]);
+    }, []);
 
     const formatDate = (dateString: string) => {
         try {
@@ -56,27 +55,55 @@ const ViewPost = () => {
         }
     };
 
+    const PostSkeleton = () => (
+        <Paper elevation={3} sx={{ p: { xs: 2, md: 4 } }}>
+            <Skeleton variant='text' height={60} width='80%' />
+
+            <Box
+                sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mb: 4, mt: 3 }}
+            >
+                <Skeleton variant='rounded' width={150} height={32} />
+                <Skeleton variant='rounded' width={200} height={32} />
+            </Box>
+
+            <Divider sx={{ mb: 4 }} />
+
+            <Skeleton variant='text' height={25} sx={{ mb: 1 }} />
+            <Skeleton variant='text' height={25} sx={{ mb: 1 }} />
+            <Skeleton variant='text' height={25} sx={{ mb: 1 }} />
+            <Skeleton variant='text' height={25} width='90%' sx={{ mb: 1 }} />
+            <Skeleton variant='text' height={25} width='95%' sx={{ mb: 3 }} />
+
+            <Skeleton variant='text' height={25} sx={{ mb: 1 }} />
+            <Skeleton variant='text' height={25} sx={{ mb: 1 }} />
+            <Skeleton variant='text' height={25} width='85%' sx={{ mb: 3 }} />
+
+            <Skeleton variant='rectangular' height={300} sx={{ mb: 3 }} />
+
+            <Skeleton variant='text' height={25} sx={{ mb: 1 }} />
+            <Skeleton variant='text' height={25} sx={{ mb: 1 }} />
+            <Skeleton variant='text' height={25} width='92%' sx={{ mb: 1 }} />
+            <Skeleton variant='text' height={25} width='88%' />
+        </Paper>
+    );
+
     return (
         <AppTheme>
             <AppAppBar />
             <CssBaseline enableColorScheme />
             <Container maxWidth='lg' sx={{ mt: '7rem', mb: 6 }}>
                 {loading ? (
-                    <Typography variant='h5' align='center'>
-                        Cargando post...
-                    </Typography>
+                    <PostSkeleton />
                 ) : error ? (
                     <Typography variant='h5' color='error' align='center'>
                         {error}
                     </Typography>
                 ) : post ? (
                     <Paper elevation={3} sx={{ p: { xs: 2, md: 4 } }}>
-                        {/* Título del post */}
                         <Typography variant='h2' component='h1' gutterBottom>
                             {post.title}
                         </Typography>
 
-                        {/* Metadatos: autor y fecha */}
                         <Box
                             sx={{
                                 display: 'flex',
@@ -103,7 +130,6 @@ const ViewPost = () => {
 
                         <Divider sx={{ mb: 4 }} />
 
-                        {/* Contenido del post con markdown */}
                         <Box
                             sx={{
                                 typography: 'body1',
