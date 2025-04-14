@@ -129,7 +129,7 @@ export default function AuthenticatedNavbar({
                             variant='contained'
                             size='small'
                             component={Link}
-                            to='/create-post'
+                            to='/posts/create'
                             startIcon={<AddIcon />}
                         >
                             New Post
