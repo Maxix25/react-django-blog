@@ -1,0 +1,37 @@
+name: Django CI
+
+on:
+    push:
+        branches:
+            - master
+    pull_request_target:
+        branches:
+            - master
+
+jobs:
+    django:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Set up Python
+              uses: actions/setup-python@v4
+              with:
+                  python-version: '3.13'
+
+            - name: Install dependencies
+              run: |
+                  cd backend
+                  pip install -r requirements.txt
+
+            - name: Run migrations
+              run: |
+                  cd backend
+                  python manage.py migrate
+
+            - name: Run tests
+              run: |
+                  cd backend
+                  python manage.py test
