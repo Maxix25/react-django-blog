@@ -43,6 +43,18 @@ def view_post(request, pk):
     return response
 
 
+@api_view(['PUT'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def edit_post(request, pk):
+    post = Post.objects.get(id=pk, author=request.user)
+    serializer = PostSerializer(post, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
+    return Response(status=status.HTTP_400_BAD_REQUEST, data=serializer.errors)
+
+
 @api_view(['GET'])
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
@@ -50,6 +62,16 @@ def get_user_posts(request):
     posts = Post.objects.filter(author=request.user)
     serializer = PostSerializer(posts, many=True)
     return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def get_user_post(request, pk):
+    post = Post.objects.get(id=pk, author=request.user)
+    serializer = PostSerializer(post)
+    response = Response(status=status.HTTP_200_OK, data=serializer.data)
+    return response
 
 
 @api_view(['GET'])
