@@ -6,4 +6,17 @@ Content-Type: application/json
     "password": ".."
 }
 ###
+
+
 GET http://127.0.0.1:8000/blog/posts/1
+###
+
+
+POST http://127.0.0.1:8000/blog/register/
+Content-Type: application/json
+
+{
+    "username": "Some username",
+    "password": "..",
+    "email": "testemail@email.com"
+}

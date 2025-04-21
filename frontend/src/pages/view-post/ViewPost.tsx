@@ -1,6 +1,5 @@
 import {
     Container,
-    CssBaseline,
     Typography,
     Box,
     Paper,
@@ -11,8 +10,6 @@ import {
 import { useState, useEffect } from 'react';
 import Markdown from 'react-markdown';
 import safeMarkdownOptions from '../../constants/safeMarkdownOptions';
-import AppTheme from '../../shared-theme/AppTheme';
-import AppAppBar from '../blog/components/AppAppBar';
 import { format } from 'date-fns';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import PersonIcon from '@mui/icons-material/Person';
@@ -36,9 +33,7 @@ const ViewPost = () => {
                     setLoading(false);
                 });
             } catch (err) {
-                setError(
-                    'Error al cargar el post. Por favor, inténtalo de nuevo más tarde.'
-                );
+                setError('Error fetching post. Please try again later.');
                 setLoading(false);
                 console.error('Error fetching post:', err);
             }
@@ -88,69 +83,61 @@ const ViewPost = () => {
     );
 
     return (
-        <AppTheme>
-            <AppAppBar />
-            <CssBaseline enableColorScheme />
-            <Container maxWidth='lg' sx={{ mt: '7rem', mb: 6 }}>
-                {loading ? (
-                    <PostSkeleton />
-                ) : error ? (
-                    <Typography variant='h5' color='error' align='center'>
-                        {error}
+        <Container maxWidth='lg' sx={{ mt: '7rem', mb: 6 }}>
+            {loading ? (
+                <PostSkeleton />
+            ) : error ? (
+                <Typography variant='h5' color='error' align='center'>
+                    {error}
+                </Typography>
+            ) : post ? (
+                <Paper elevation={3} sx={{ p: { xs: 2, md: 4 } }}>
+                    <Typography variant='h2' component='h1' gutterBottom>
+                        {post.title}
                     </Typography>
-                ) : post ? (
-                    <Paper elevation={3} sx={{ p: { xs: 2, md: 4 } }}>
-                        <Typography variant='h2' component='h1' gutterBottom>
-                            {post.title}
-                        </Typography>
 
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                gap: 2,
-                                flexWrap: 'wrap',
-                                mb: 4,
-                                mt: 3,
-                            }}
-                        >
-                            <Chip
-                                icon={<PersonIcon />}
-                                label={`Autor: ${post.author.username}`}
-                                variant='outlined'
-                                color='primary'
-                            />
-                            <Chip
-                                icon={<CalendarTodayIcon />}
-                                label={`Publicado: ${formatDate(
-                                    post.date_posted
-                                )}`}
-                                variant='outlined'
-                            />
-                        </Box>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            gap: 2,
+                            flexWrap: 'wrap',
+                            mb: 4,
+                            mt: 3,
+                        }}
+                    >
+                        <Chip
+                            icon={<PersonIcon />}
+                            label={`Author: ${post.author.username}`}
+                            variant='outlined'
+                            color='primary'
+                        />
+                        <Chip
+                            icon={<CalendarTodayIcon />}
+                            label={`Published: ${formatDate(post.date_posted)}`}
+                            variant='outlined'
+                        />
+                    </Box>
 
-                        <Divider sx={{ mb: 4 }} />
+                    <Divider sx={{ mb: 4 }} />
 
-                        <Box
-                            sx={{
-                                typography: 'body1',
-                                '& img': { maxWidth: '100%' },
-                                '& a': { color: 'primary.main' },
-                            }}
-                        >
-                            <Markdown
-                                components={safeMarkdownOptions.components}
-                            >
-                                {post.content}
-                            </Markdown>
-                        </Box>
-                    </Paper>
-                ) : (
-                    <Typography variant='h5' align='center'>
-                        No se encontró el post solicitado
-                    </Typography>
-                )}
-            </Container>
-        </AppTheme>
+                    <Box
+                        sx={{
+                            typography: 'body1',
+                            '& img': { maxWidth: '100%' },
+                            '& a': { color: 'primary.main' },
+                        }}
+                    >
+                        <Markdown components={safeMarkdownOptions.components}>
+                            {post.content}
+                        </Markdown>
+                    </Box>
+                </Paper>
+            ) : (
+                <Typography variant='h5' align='center'>
+                    No se encontró el post solicitado
+                </Typography>
+            )}
+        </Container>
     );
 };
 

@@ -1,7 +1,6 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
-import CssBaseline from '@mui/material/CssBaseline';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
@@ -10,14 +9,13 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
-import AppTheme from '../../shared-theme/AppTheme';
-import ColorModeSelect from '../../shared-theme/ColorModeSelect';
 import { SitemarkIcon } from './components/CustomIcons';
 import apiLogin from '../../api/auth/login';
 import axios from 'axios';
 import useAuth from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
+import { useTheme } from '@mui/material/styles';
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
@@ -61,10 +59,11 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
     },
 }));
 
-export default function SignIn(props: { disableCustomTheme?: boolean }) {
+export default function SignIn() {
     const { login } = useAuth();
-    toast.success('Welcome back!');
     const navigate = useNavigate();
+    const theme = useTheme();
+    console.log(theme.palette.mode);
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -84,24 +83,23 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
                             username: response.data.username,
                             id: response.data.id,
                         };
-                        console.log('Logging in!');
                         login(data.access, data.refresh, userData);
                         navigate('/posts/your-posts');
                     });
             })
             .catch((error) => {
-                console.error('Error signing in:', error);
+                if (error.response) {
+                    console.error('Error:', error.response.data);
+                    if (error.response.status === 401) {
+                        toast.error('Invalid username or password');
+                    }
+                }
             });
     };
 
     return (
-        <AppTheme {...props}>
-            <CssBaseline enableColorScheme />
-            <ToastContainer />
+        <>
             <SignInContainer direction='column' justifyContent='space-between'>
-                <ColorModeSelect
-                    sx={{ position: 'fixed', top: '1rem', right: '1rem' }}
-                />
                 <Card variant='outlined'>
                     <SitemarkIcon />
                     <Typography
@@ -167,6 +165,6 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
                     </Box>
                 </Card>
             </SignInContainer>
-        </AppTheme>
+        </>
     );
 }

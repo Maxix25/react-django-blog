@@ -1,16 +1,9 @@
-import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
-import AppTheme from '../../shared-theme/AppTheme';
-import AppAppBar from './components/AppAppBar';
 import MainContent from './components/MainContent';
-import Footer from './components/Footer';
 
-export default function Blog(props: { disableCustomTheme?: boolean }) {
+export default function Blog() {
     return (
-        <AppTheme {...props}>
-            <CssBaseline enableColorScheme />
-
-            <AppAppBar />
+        <>
             <Container
                 maxWidth='lg'
                 component='main'
@@ -23,7 +16,6 @@ export default function Blog(props: { disableCustomTheme?: boolean }) {
             >
                 <MainContent />
             </Container>
-            <Footer />
-        </AppTheme>
+        </>
     );
 }
