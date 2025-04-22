@@ -32,8 +32,7 @@ This is a markdown preview
         event.preventDefault();
         editPost(postId, title, markdownContent).then(() => {
             navigate('/posts/your-posts');
-        }
-        );
+        });
     };
 
     const debouncedRender = useCallback(() => {
@@ -158,9 +157,7 @@ This is a markdown preview
                                     {title}
                                 </Typography>
                                 <Markdown
-                                    components={
-                                        safeMarkdownOptions.components
-                                    }
+                                    components={safeMarkdownOptions.components}
                                 >
                                     {renderedContent}
                                 </Markdown>
@@ -181,7 +178,7 @@ This is a markdown preview
                         color='primary'
                         size='large'
                     >
-                        Publish Post
+                        Publish Edit
                     </Button>
                 </Box>
             </form>

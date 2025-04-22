@@ -9,6 +9,7 @@ import YourPosts from './pages/your-posts/YourPosts';
 import SignUp from './pages/sign-up/SignUp';
 import AppAppBar from './pages/blog/components/AppAppBar';
 import AppTheme from './shared-theme/AppTheme';
+import EditPost from './pages/edit-post/EditPost';
 import { Container, CssBaseline } from '@mui/material';
 import Footer from './pages/blog/components/Footer';
 import { ToastContainer } from 'react-toastify';
@@ -46,6 +47,14 @@ function App() {
                     }
                 />
                 <Route path='/signup' element={<SignUp />} />
+                <Route
+                    path='/posts/edit'
+                    element={
+                        <ProtectedRoute>
+                            <EditPost />
+                        </ProtectedRoute>
+                    }
+                />
 
                 <Route path='*' element={<NotFound />} />
             </Routes>
