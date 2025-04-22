@@ -10,10 +10,11 @@ import { useState, useEffect, useCallback } from 'react';
 import Grid from '@mui/material/Grid2';
 import Markdown from 'react-markdown';
 import safeMarkdownOptions from '../../constants/safeMarkdownOptions';
-import createPost from '../../api/posts/createPost';
+import editPost from '../../api/posts/editPost';
 import { useNavigate } from 'react-router-dom';
+import getUserPost from '../../api/posts/getUserPost';
 
-const CreatePost = () => {
+const EditPost = () => {
     const [title, setTitle] = useState('My New Blog Post');
     const [markdownContent, setMarkdownContent] = useState(`## Introduction
 This is a markdown preview
@@ -24,10 +25,14 @@ This is a markdown preview
     const [renderedContent, setRenderedContent] = useState(markdownContent);
 
     const navigate = useNavigate();
+    const urlparams = new URLSearchParams(window.location.search);
+    const postId = urlparams.get('id') ? parseInt(urlparams.get('id')!) : null;
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        createPost(event, navigate);
+        editPost(postId, title, markdownContent).then(() => {
+            navigate('/posts/your-posts');
+        });
     };
 
     const debouncedRender = useCallback(() => {
@@ -42,6 +47,16 @@ This is a markdown preview
         const cleanup = debouncedRender();
         return cleanup;
     }, [debouncedRender]);
+    useEffect(() => {
+        const fetchPost = async () => {
+            const post = await getUserPost(postId);
+            if (post) {
+                setTitle(post.title);
+                setMarkdownContent(post.content);
+            }
+        };
+        fetchPost();
+    }, []);
 
     const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(event.target.value);
@@ -56,7 +71,7 @@ This is a markdown preview
     return (
         <Container maxWidth='xl' sx={{ mt: '6rem' }}>
             <Typography variant='h2' sx={{ mb: 2, mt: 2 }}>
-                Create New Post
+                Edit Post
             </Typography>
             <form onSubmit={handleSubmit}>
                 <TextField
@@ -142,9 +157,7 @@ This is a markdown preview
                                     {title}
                                 </Typography>
                                 <Markdown
-                                    components={
-                                        safeMarkdownOptions.components
-                                    }
+                                    components={safeMarkdownOptions.components}
                                 >
                                     {renderedContent}
                                 </Markdown>
@@ -165,7 +178,7 @@ This is a markdown preview
                         color='primary'
                         size='large'
                     >
-                        Publish Post
+                        Publish Edit
                     </Button>
                 </Box>
             </form>
@@ -173,4 +186,4 @@ This is a markdown preview
     );
 };
 
-export default CreatePost;
+export default EditPost;

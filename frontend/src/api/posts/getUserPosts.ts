@@ -1,5 +1,6 @@
 import api from '../api';
-const getUserPosts = async () => {
+import { Post } from '../../interfaces/posts.interface';
+const getUserPosts = async (): Promise<Post[]> => {
     const response = await api.get('/blog/posts/your-posts');
     return response.data;
 };

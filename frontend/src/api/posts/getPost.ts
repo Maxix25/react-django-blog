@@ -1,6 +1,7 @@
 import api from '../api';
+import { Post } from '../../interfaces/posts.interface';
 
-const getPost = async (id: number | null) => {
+const getPost = async (id: number | null): Promise<Post | null> => {
     if (!id) {
         return null;
     }
