@@ -21,6 +21,8 @@ import AddIcon from '@mui/icons-material/Add';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import getUserPosts from '../../api/posts/getUserPosts';
 import { Post } from '../../interfaces/posts.interface';
+import deletePost from '../../api/posts/deletePost';
+import { toast } from 'react-toastify';
 
 const YourPosts = () => {
     const [posts, setPosts] = useState<Post[]>([]);
@@ -54,8 +56,9 @@ const YourPosts = () => {
         // This is just a placeholder
         if (window.confirm('Are you sure you want to delete this post?')) {
             try {
-                // await deletePost(postId);
+                await deletePost(postId);
                 setPosts(posts.filter((post) => post.id !== postId));
+                toast.success('Post deleted successfully!');
             } catch (err) {
                 console.error('Error deleting post:', err);
                 setError('Failed to delete post. Please try again.');

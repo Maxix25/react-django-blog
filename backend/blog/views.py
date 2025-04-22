@@ -55,6 +55,15 @@ def edit_post(request, pk):
     return Response(status=status.HTTP_400_BAD_REQUEST, data=serializer.errors)
 
 
+@api_view(['DELETE'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def delete_post(request, pk):
+    post = Post.objects.get(id=pk, author=request.user)
+    post.delete()
+    return Response(status=status.HTTP_200_OK, data={'message': 'Post deleted successfully'})
+
+
 @api_view(['GET'])
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
