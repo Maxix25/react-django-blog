@@ -21,6 +21,7 @@
 - Edit posts
 - Delete posts
 - Login and Register
+- Dark theme and light theme supported
 
 ## How to run (Docker)
 - Clone the repo using `git clone https://github.com/Maxix25/react-django-blog.git`
