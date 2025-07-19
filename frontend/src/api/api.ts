@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import Cookies from 'js-cookie';
-let api;
+let api: AxiosInstance;
 
 if (import.meta.env.PROD) {
     api = axios.create({
