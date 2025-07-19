@@ -25,7 +25,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '-7g=(zr&@2w79#p687t&46=!i9kw08g3sni*5q9!o&=$0g5ul*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if os.environ.get('DJANGO_DEBUG') == 'False':
+    print("Running in production mode")
+    DEBUG = False
+else:
+    DEBUG = True
 
 ALLOWED_HOSTS = ['react-django-blog-0axx.onrender.com',
                  'localhost', '127.0.0.1']
