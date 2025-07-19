@@ -11,11 +11,11 @@ import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import { SitemarkIcon } from './components/CustomIcons';
 import apiLogin from '../../api/auth/login';
-import axios from 'axios';
 import useAuth from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useTheme } from '@mui/material/styles';
+import api from '../../api/api';
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
@@ -72,20 +72,18 @@ export default function SignIn() {
 
         apiLogin(username, password)
             .then((data) => {
-                axios
-                    .get('/blog/user/', {
-                        headers: {
-                            Authorization: `Bearer ${data.access}`,
-                        },
-                    })
-                    .then((response) => {
-                        const userData = {
-                            username: response.data.username,
-                            id: response.data.id,
-                        };
-                        login(data.access, data.refresh, userData);
-                        navigate('/posts/your-posts');
-                    });
+                api.get('/blog/user/', {
+                    headers: {
+                        Authorization: `Bearer ${data.access}`,
+                    },
+                }).then((response) => {
+                    const userData = {
+                        username: response.data.username,
+                        id: response.data.id,
+                    };
+                    login(data.access, data.refresh, userData);
+                    navigate('/posts/your-posts');
+                });
             })
             .catch((error) => {
                 if (error.response) {
