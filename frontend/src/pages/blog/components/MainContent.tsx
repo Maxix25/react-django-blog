@@ -169,7 +169,7 @@ const MainContent = () => {
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
             <div>
                 <Typography variant='h1' gutterBottom>
-                    MaxiBlog
+                    Welcome to MaxiBlog!
                 </Typography>
             </div>
             <Box
@@ -214,6 +214,9 @@ const MainContent = () => {
                 </Box>
             </Box>
             <Grid container spacing={2} columns={12}>
+                <Typography variant='h6' sx={{ mb: 2 }}>
+                    Latest Posts
+                </Typography>
                 {posts.map((post, index) => {
                     // Determine layout based on index
                     let gridSize = { xs: 12, md: 4 };
@@ -352,7 +355,6 @@ const MainContent = () => {
                         </Link>
                     );
                 })}
-
                 {/* Show placeholder cards if not enough posts */}
                 {posts.length === 0 && (
                     <Grid size={{ xs: 12 }}>

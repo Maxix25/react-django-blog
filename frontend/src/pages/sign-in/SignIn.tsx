@@ -16,6 +16,8 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useTheme } from '@mui/material/styles';
 import api from '../../api/api';
+import { useState } from 'react';
+import { CircularProgress } from '@mui/material';
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
@@ -62,10 +64,12 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
 export default function SignIn() {
     const { login } = useAuth();
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     const theme = useTheme();
     console.log(theme.palette.mode);
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setLoading(true);
         const data = new FormData(event.currentTarget);
         const username = data.get('username') as string;
         const password = data.get('password') as string;
@@ -92,6 +96,9 @@ export default function SignIn() {
                         toast.error('Invalid username or password');
                     }
                 }
+            })
+            .finally(() => {
+                setLoading(false);
             });
     };
 
@@ -157,8 +164,17 @@ export default function SignIn() {
                             }
                             label='Remember me'
                         />
-                        <Button type='submit' fullWidth variant='contained'>
-                            Sign in
+                        <Button
+                            type='submit'
+                            fullWidth
+                            variant='contained'
+                            disabled={loading}
+                        >
+                            {loading ? (
+                                <CircularProgress size={24} />
+                            ) : (
+                                'Sign in'
+                            )}
                         </Button>
                     </Box>
                 </Card>

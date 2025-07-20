@@ -14,7 +14,7 @@ import createPost from '../../api/posts/createPost';
 import { useNavigate } from 'react-router-dom';
 
 const CreatePost = () => {
-    const [title, setTitle] = useState('My New Blog Post');
+    const [title, setTitle] = useState('');
     const [markdownContent, setMarkdownContent] = useState(`## Introduction
 This is a markdown preview
 - This is a list item
@@ -68,6 +68,7 @@ This is a markdown preview
                     onChange={handleTitleChange}
                     sx={{ mb: 2, mt: 2 }}
                     slotProps={{ input: { style: { fontSize: '1.5rem' } } }}
+                    required
                 />
 
                 <Grid
@@ -97,6 +98,7 @@ This is a markdown preview
                             <TextField
                                 multiline
                                 fullWidth
+                                required
                                 variant='outlined'
                                 name='content'
                                 value={markdownContent}
@@ -142,9 +144,7 @@ This is a markdown preview
                                     {title}
                                 </Typography>
                                 <Markdown
-                                    components={
-                                        safeMarkdownOptions.components
-                                    }
+                                    components={safeMarkdownOptions.components}
                                 >
                                     {renderedContent}
                                 </Markdown>

@@ -16,6 +16,7 @@ import apiLogin from '../../api/auth/login';
 import useAuth from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import api from '../../api/api';
+import { CircularProgress } from '@mui/material';
 
 const Card = styled(MuiCard)(({ theme }) => ({
     display: 'flex',
@@ -68,6 +69,7 @@ export default function SignUp() {
     const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
     const [nameError, setNameError] = useState(false);
     const [nameErrorMessage, setNameErrorMessage] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const validateInputs = () => {
         const email = document.getElementById('email') as HTMLInputElement;
@@ -112,6 +114,7 @@ export default function SignUp() {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setLoading(true);
         if (nameError || emailError || passwordError) {
             return;
         }
@@ -144,6 +147,9 @@ export default function SignUp() {
                                     toast.error('Error on logging in');
                                 }
                             }
+                        })
+                        .finally(() => {
+                            setLoading(false);
                         });
                 }
             })
@@ -236,8 +242,9 @@ export default function SignUp() {
                         fullWidth
                         variant='contained'
                         onClick={validateInputs}
+                        disabled={loading}
                     >
-                        Sign up
+                        {loading ? <CircularProgress size={24} /> : 'Sign up'}
                     </Button>
                 </Box>
 
