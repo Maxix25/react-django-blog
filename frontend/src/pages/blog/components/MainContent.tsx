@@ -146,6 +146,7 @@ const MainContent = () => {
         null
     );
     const [posts, setPosts] = useState<Post[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -153,6 +154,8 @@ const MainContent = () => {
             setPosts(data);
         };
         fetchPosts();
+        console.log('Posts fetched:', posts);
+        setLoading(false);
     }, []);
 
     const handleFocus = (index: number) => {
@@ -356,10 +359,20 @@ const MainContent = () => {
                     );
                 })}
                 {/* Show placeholder cards if not enough posts */}
-                {posts.length === 0 && (
+                {posts.length === 0 && loading && (
                     <Grid size={{ xs: 12 }}>
                         <Typography variant='body1' align='center'>
                             Loading posts...
+                        </Typography>
+                    </Grid>
+                )}
+                {posts.length === 0 && !loading && (
+                    <Grid size={{ xs: 12 }}>
+                        <Typography variant='body1' align='center'>
+                            No posts available.{' '}
+                            <Link to={'/posts/create'}>
+                                Create the first post!
+                            </Link>
                         </Typography>
                     </Grid>
                 )}
