@@ -9,12 +9,12 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
-import apiLogin from '../../api/auth/login';
-import useAuth from '../../hooks/useAuth';
+import apiLogin from '../api/auth/login';
+import useAuth from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useTheme } from '@mui/material/styles';
-import api from '../../api/api';
+import api from '../api/api';
 import { useState } from 'react';
 import { CircularProgress } from '@mui/material';
 

@@ -9,8 +9,8 @@ import {
 import { useState, useEffect, useCallback } from 'react';
 import Grid from '@mui/material/Grid2';
 import Markdown from 'react-markdown';
-import safeMarkdownOptions from '../../constants/safeMarkdownOptions';
-import createPost from '../../api/posts/createPost';
+import safeMarkdownOptions from '../constants/safeMarkdownOptions';
+import createPost from '../api/posts/createPost';
 import { useNavigate } from 'react-router-dom';
 
 const CreatePost = () => {

@@ -9,12 +9,12 @@ import {
 } from '@mui/material';
 import { useState, useEffect } from 'react';
 import Markdown from 'react-markdown';
-import safeMarkdownOptions from '../../constants/safeMarkdownOptions';
+import safeMarkdownOptions from '../constants/safeMarkdownOptions';
 import { format } from 'date-fns';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import PersonIcon from '@mui/icons-material/Person';
-import { Post } from '../../interfaces/posts.interface';
-import getPost from '../../api/posts/getPost';
+import { Post } from '../interfaces/posts.interface';
+import getPost from '../api/posts/getPost';
 
 const ViewPost = () => {
     const [post, setPost] = useState<Post | null>(null);
@@ -45,7 +45,7 @@ const ViewPost = () => {
     const formatDate = (dateString: string) => {
         try {
             return format(new Date(dateString), 'dd MMMM, yyyy');
-        } catch (e) {
+        } catch {
             return dateString;
         }
     };

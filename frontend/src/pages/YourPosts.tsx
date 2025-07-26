@@ -19,9 +19,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import getUserPosts from '../../api/posts/getUserPosts';
-import { Post } from '../../interfaces/posts.interface';
-import deletePost from '../../api/posts/deletePost';
+import getUserPosts from '../api/posts/getUserPosts';
+import { Post } from '../interfaces/posts.interface';
+import deletePost from '../api/posts/deletePost';
 import { toast } from 'react-toastify';
 
 const YourPosts = () => {
@@ -69,7 +69,7 @@ const YourPosts = () => {
     const formatDate = (dateString: string) => {
         try {
             return format(new Date(dateString), 'MMMM dd, yyyy');
-        } catch (e) {
+        } catch {
             return dateString;
         }
     };

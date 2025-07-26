@@ -9,12 +9,12 @@ import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import { useState } from 'react';
-import register from '../../api/auth/register';
+import register from '../api/auth/register';
 import { toast } from 'react-toastify';
-import apiLogin from '../../api/auth/login';
-import useAuth from '../../hooks/useAuth';
+import apiLogin from '../api/auth/login';
+import useAuth from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
-import api from '../../api/api';
+import api from '../api/api';
 import { CircularProgress } from '@mui/material';
 
 const Card = styled(MuiCard)(({ theme }) => ({

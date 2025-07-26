@@ -9,10 +9,10 @@ import {
 import { useState, useEffect, useCallback } from 'react';
 import Grid from '@mui/material/Grid2';
 import Markdown from 'react-markdown';
-import safeMarkdownOptions from '../../constants/safeMarkdownOptions';
-import editPost from '../../api/posts/editPost';
+import safeMarkdownOptions from '../constants/safeMarkdownOptions';
+import editPost from '../api/posts/editPost';
 import { useNavigate } from 'react-router-dom';
-import getUserPost from '../../api/posts/getUserPost';
+import getUserPost from '../api/posts/getUserPost';
 
 const EditPost = () => {
     const [title, setTitle] = useState('My New Blog Post');
@@ -56,7 +56,7 @@ This is a markdown preview
             }
         };
         fetchPost();
-    }, []);
+    }, [postId]);
 
     const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(event.target.value);
