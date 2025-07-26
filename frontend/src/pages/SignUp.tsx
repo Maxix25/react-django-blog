@@ -8,7 +8,6 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
-import { SitemarkIcon } from './components/CustomIcons';
 import { useState } from 'react';
 import register from '../../api/auth/register';
 import { toast } from 'react-toastify';
@@ -172,7 +171,6 @@ export default function SignUp() {
     return (
         <SignUpContainer direction='column' justifyContent='space-between'>
             <Card variant='outlined'>
-                <SitemarkIcon />
                 <Typography
                     component='h1'
                     variant='h4'

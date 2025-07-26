@@ -9,7 +9,6 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
-import { SitemarkIcon } from './components/CustomIcons';
 import apiLogin from '../../api/auth/login';
 import useAuth from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
@@ -106,7 +105,6 @@ export default function SignIn() {
         <>
             <SignInContainer direction='column' justifyContent='space-between'>
                 <Card variant='outlined'>
-                    <SitemarkIcon />
                     <Typography
                         component='h1'
                         variant='h4'
