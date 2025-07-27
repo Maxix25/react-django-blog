@@ -149,13 +149,13 @@ const MainContent = () => {
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
+        setLoading(true);
         const fetchPosts = async () => {
             const data = await getAllPosts();
             setPosts(data);
+            setLoading(false);
         };
         fetchPosts();
-        console.log('Posts fetched:', posts);
-        setLoading(false);
     }, []);
 
     const handleFocus = (index: number) => {
